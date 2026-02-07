@@ -1,6 +1,5 @@
 <script lang="ts">
   import { groupedFeatures, featureValues } from '../lib/stores';
-  import { get } from 'svelte/store';
   import SliderGroup from './SliderGroup.svelte';
   import type { GroupedFeatures } from '../lib/types';
 
@@ -8,11 +7,11 @@
   let values: Record<string, number> = $state({});
 
   groupedFeatures.subscribe((v) => (grouped = v));
-  featureValues.subscribe((v) => (values = { ...v }));
+  featureValues.subscribe((v) => (values = v));
 
-  $effect(() => {
-    featureValues.set(values);
-  });
+  function handleSliderChange(key: string, value: number) {
+    featureValues.update((v) => ({ ...v, [key]: value }));
+  }
 
   const groupIcons = {
     mean: `<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" /></svg>`,
@@ -31,14 +30,22 @@
   <!-- Header -->
   <div class="mb-5">
     <div class="flex items-center gap-2 mb-1">
-      <svg class="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+      <svg
+        class="w-4 h-4 text-primary"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="1.5"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
+        />
       </svg>
       <h2 class="text-sm font-semibold text-slate-700">Cell Nuclei Measurements</h2>
     </div>
-    <p class="text-xs text-slate-400 leading-relaxed">
-      30 features grouped by statistical measure
-    </p>
+    <p class="text-xs text-slate-400 leading-relaxed">30 features grouped by statistical measure</p>
   </div>
 
   <div class="space-y-3">
@@ -47,7 +54,8 @@
       description={groupDescriptions.mean}
       icon={groupIcons.mean}
       features={grouped.mean}
-      bind:values
+      {values}
+      onchange={handleSliderChange}
       defaultOpen={true}
     />
     <SliderGroup
@@ -55,7 +63,8 @@
       description={groupDescriptions.se}
       icon={groupIcons.se}
       features={grouped.se}
-      bind:values
+      {values}
+      onchange={handleSliderChange}
       defaultOpen={false}
     />
     <SliderGroup
@@ -63,7 +72,8 @@
       description={groupDescriptions.worst}
       icon={groupIcons.worst}
       features={grouped.worst}
-      bind:values
+      {values}
+      onchange={handleSliderChange}
       defaultOpen={false}
     />
   </div>

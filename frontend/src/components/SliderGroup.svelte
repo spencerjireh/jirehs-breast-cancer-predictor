@@ -6,7 +6,8 @@
     description = '',
     icon = '',
     features,
-    values = $bindable(),
+    values,
+    onchange,
     defaultOpen = false,
   }: {
     label: string;
@@ -14,6 +15,7 @@
     icon?: string;
     features: FeatureInfo[];
     values: Record<string, number>;
+    onchange: (key: string, value: number) => void;
     defaultOpen?: boolean;
   } = $props();
 
@@ -21,8 +23,7 @@
 
   function onInput(key: string, e: Event) {
     const target = e.target as HTMLInputElement;
-    values[key] = parseFloat(target.value);
-    values = values;
+    onchange(key, parseFloat(target.value));
   }
 
   function getPercent(feature: FeatureInfo): number {
@@ -37,7 +38,9 @@
     class="w-full flex items-center gap-3 p-3.5 hover:bg-surface-hover transition-colors duration-150 cursor-pointer"
     onclick={() => (collapsed = !collapsed)}
   >
-    <div class="w-8 h-8 rounded-lg bg-primary-50 text-primary flex items-center justify-center flex-shrink-0">
+    <div
+      class="w-8 h-8 rounded-lg bg-primary-50 text-primary flex items-center justify-center flex-shrink-0"
+    >
       {@html icon}
     </div>
     <div class="flex-1 text-left">
@@ -49,7 +52,9 @@
         {features.length}
       </span>
       <svg
-        class="w-4 h-4 text-slate-400 transition-transform duration-200 {collapsed ? '' : 'rotate-180'}"
+        class="w-4 h-4 text-slate-400 transition-transform duration-200 {collapsed
+          ? ''
+          : 'rotate-180'}"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -72,10 +77,14 @@
             </span>
           </div>
           <div class="relative">
-            <div class="absolute inset-0 h-1.5 top-[7px] rounded-full bg-slate-100 overflow-hidden pointer-events-none">
+            <div
+              class="absolute inset-0 h-1.5 top-[7px] rounded-full bg-slate-100 overflow-hidden pointer-events-none"
+            >
               <div
                 class="h-full rounded-full transition-all duration-150"
-                style="width: {getPercent(feature)}%; background: linear-gradient(90deg, var(--color-primary-100), var(--color-primary));"
+                style="width: {getPercent(
+                  feature,
+                )}%; background: linear-gradient(90deg, var(--color-primary-100), var(--color-primary));"
               ></div>
             </div>
             <input
