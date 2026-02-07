@@ -1,0 +1,7 @@
+backend/
+*.pkl
+*.csv
+dist/
+node_modules/
+.venv/
+package-lock.json

@@ -6,4 +6,6 @@ __pycache__/
 .DS_Store
 node_modules/
 dist/
+.idea/
+.vscode/
 CLAUDE.md
