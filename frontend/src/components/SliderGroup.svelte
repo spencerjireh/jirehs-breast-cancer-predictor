@@ -3,48 +3,92 @@
 
   let {
     label,
+    description = '',
+    icon = '',
     features,
     values = $bindable(),
+    defaultOpen = false,
   }: {
     label: string;
+    description?: string;
+    icon?: string;
     features: FeatureInfo[];
     values: Record<string, number>;
+    defaultOpen?: boolean;
   } = $props();
 
-  let collapsed = $state(false);
+  let collapsed = $state(!defaultOpen);
 
   function onInput(key: string, e: Event) {
     const target = e.target as HTMLInputElement;
     values[key] = parseFloat(target.value);
     values = values;
   }
+
+  function getPercent(feature: FeatureInfo): number {
+    const val = values[feature.key] ?? feature.mean;
+    return Math.min(100, Math.max(0, (val / feature.max) * 100));
+  }
 </script>
 
-<div class="mb-4">
+<div class="card overflow-hidden">
+  <!-- Header button -->
   <button
-    class="w-full flex items-center justify-between py-2 px-3 bg-accent text-white rounded-md text-sm font-medium hover:bg-accent-light transition-colors cursor-pointer"
+    class="w-full flex items-center gap-3 p-3.5 hover:bg-surface-hover transition-colors duration-150 cursor-pointer"
     onclick={() => (collapsed = !collapsed)}
   >
-    <span>{label}</span>
-    <span class="text-xs">{collapsed ? '+' : '-'}</span>
+    <div class="w-8 h-8 rounded-lg bg-primary-50 text-primary flex items-center justify-center flex-shrink-0">
+      {@html icon}
+    </div>
+    <div class="flex-1 text-left">
+      <div class="text-sm font-semibold text-slate-700">{label}</div>
+      <div class="text-[11px] text-slate-400 leading-snug">{description}</div>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="text-[10px] font-medium text-slate-400 bg-slate-50 px-2 py-0.5 rounded-full">
+        {features.length}
+      </span>
+      <svg
+        class="w-4 h-4 text-slate-400 transition-transform duration-200 {collapsed ? '' : 'rotate-180'}"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+      </svg>
+    </div>
   </button>
 
+  <!-- Slider content -->
   {#if !collapsed}
-    <div class="mt-2 space-y-3 px-1">
+    <div class="border-t border-slate-50 px-4 py-3 space-y-4 animate-fade-in">
       {#each features as feature (feature.key)}
-        <div>
-          <div class="flex justify-between text-xs text-gray-600 mb-1">
-            <span>{feature.label}</span>
-            <span class="font-mono">{(values[feature.key] ?? feature.mean).toFixed(4)}</span>
+        <div class="group">
+          <div class="flex justify-between items-baseline mb-1.5">
+            <span class="text-xs font-medium text-slate-600">{feature.label}</span>
+            <span class="text-xs font-mono text-primary font-medium tabular-nums">
+              {(values[feature.key] ?? feature.mean).toFixed(4)}
+            </span>
           </div>
-          <input
-            type="range"
-            min={0}
-            max={feature.max}
-            step={feature.max / 200}
-            value={values[feature.key] ?? feature.mean}
-            oninput={(e) => onInput(feature.key, e)}
-          />
+          <div class="relative">
+            <div class="absolute inset-0 h-1.5 top-[7px] rounded-full bg-slate-100 overflow-hidden pointer-events-none">
+              <div
+                class="h-full rounded-full transition-all duration-150"
+                style="width: {getPercent(feature)}%; background: linear-gradient(90deg, var(--color-primary-100), var(--color-primary));"
+              ></div>
+            </div>
+            <input
+              type="range"
+              min={0}
+              max={feature.max}
+              step={feature.max / 200}
+              value={values[feature.key] ?? feature.mean}
+              oninput={(e) => onInput(feature.key, e)}
+              class="relative z-10"
+              style="background: transparent;"
+            />
+          </div>
         </div>
       {/each}
     </div>
