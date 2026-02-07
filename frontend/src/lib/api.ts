@@ -9,9 +9,7 @@ export async function fetchFeatures(): Promise<{
   return res.json();
 }
 
-export async function fetchPrediction(
-  features: Record<string, number>,
-): Promise<PredictionResult> {
+export async function fetchPrediction(features: Record<string, number>): Promise<PredictionResult> {
   const res = await fetch('/api/predict', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

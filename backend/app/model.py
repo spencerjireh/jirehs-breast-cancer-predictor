@@ -95,9 +95,7 @@ def get_feature_metadata() -> list[dict]:
 
 
 def predict(features: dict[str, float]) -> dict:
-    input_array = np.array(
-        [features[key] for key in FEATURE_KEYS]
-    ).reshape(1, -1)
+    input_array = np.array([features[key] for key in FEATURE_KEYS]).reshape(1, -1)
 
     input_array_scaled = _scaler.transform(input_array)
     prediction = _model.predict(input_array_scaled)

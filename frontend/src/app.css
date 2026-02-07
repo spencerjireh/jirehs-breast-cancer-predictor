@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --color-primary: #0d9488;
@@ -50,36 +50,38 @@ body {
 }
 
 /* Range slider */
-input[type="range"] {
+input[type='range'] {
   @apply w-full h-1.5 rounded-full appearance-none cursor-pointer;
   background: linear-gradient(to right, var(--color-primary-100), var(--color-primary-100));
 }
 
-input[type="range"]::-webkit-slider-thumb {
+input[type='range']::-webkit-slider-thumb {
   @apply appearance-none w-4 h-4 rounded-full shadow-md;
   background: var(--color-primary);
   border: 2px solid white;
   box-shadow: 0 1px 4px rgba(13, 148, 136, 0.35);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
-input[type="range"]::-webkit-slider-thumb:hover {
+input[type='range']::-webkit-slider-thumb:hover {
   transform: scale(1.2);
   box-shadow: 0 2px 8px rgba(13, 148, 136, 0.45);
 }
 
-input[type="range"]::-webkit-slider-thumb:active {
+input[type='range']::-webkit-slider-thumb:active {
   transform: scale(1.1);
 }
 
-input[type="range"]::-moz-range-thumb {
+input[type='range']::-moz-range-thumb {
   @apply w-4 h-4 rounded-full border-0;
   background: var(--color-primary);
   border: 2px solid white;
   box-shadow: 0 1px 4px rgba(13, 148, 136, 0.35);
 }
 
-input[type="range"]::-moz-range-track {
+input[type='range']::-moz-range-track {
   @apply h-1.5 rounded-full;
   background: var(--color-primary-100);
 }
@@ -101,7 +103,9 @@ input[type="range"]::-moz-range-track {
 
 /* Gauge animation */
 @keyframes gauge-fill {
-  from { stroke-dashoffset: 251.33; }
+  from {
+    stroke-dashoffset: 251.33;
+  }
 }
 
 @keyframes fade-up {
@@ -116,8 +120,12 @@ input[type="range"]::-moz-range-track {
 }
 
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .animate-fade-up {
@@ -129,14 +137,24 @@ input[type="range"]::-moz-range-track {
 }
 
 /* Stagger delays */
-.delay-100 { animation-delay: 100ms; }
-.delay-200 { animation-delay: 200ms; }
-.delay-300 { animation-delay: 300ms; }
-.delay-400 { animation-delay: 400ms; }
+.delay-100 {
+  animation-delay: 100ms;
+}
+.delay-200 {
+  animation-delay: 200ms;
+}
+.delay-300 {
+  animation-delay: 300ms;
+}
+.delay-400 {
+  animation-delay: 400ms;
+}
 
 /* Spinner */
 @keyframes spin-slow {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .animate-spin-slow {

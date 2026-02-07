@@ -1,7 +1,13 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { fetchFeatures, fetchPrediction } from './lib/api';
-  import { featuresMeta, featureValues, prediction, predicting, radarCategories } from './lib/stores';
+  import {
+    featuresMeta,
+    featureValues,
+    prediction,
+    predicting,
+    radarCategories,
+  } from './lib/stores';
   import { debounce } from './lib/debounce';
   import SliderPanel from './components/SliderPanel.svelte';
   import RadarChart from './components/RadarChart.svelte';
@@ -62,21 +68,37 @@
       <div class="flex items-center justify-between h-16">
         <!-- Logo -->
         <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center shadow-sm">
-            <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M7.864 4.243A7.5 7.5 0 0119.5 10.5c0 2.92-.556 5.709-1.568 8.268M5.742 6.364A7.465 7.465 0 004 10.5a7.464 7.464 0 01-1.15 3.993m1.989 3.559A11.209 11.209 0 008.25 10.5a3.75 3.75 0 117.5 0c0 .527-.021 1.049-.064 1.565M12 10.5a14.94 14.94 0 01-3.6 9.75m6.633-4.596a18.666 18.666 0 01-2.485 5.33" />
+          <div
+            class="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center shadow-sm"
+          >
+            <svg
+              class="w-5 h-5 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M7.864 4.243A7.5 7.5 0 0119.5 10.5c0 2.92-.556 5.709-1.568 8.268M5.742 6.364A7.465 7.465 0 004 10.5a7.464 7.464 0 01-1.15 3.993m1.989 3.559A11.209 11.209 0 008.25 10.5a3.75 3.75 0 117.5 0c0 .527-.021 1.049-.064 1.565M12 10.5a14.94 14.94 0 01-3.6 9.75m6.633-4.596a18.666 18.666 0 01-2.485 5.33"
+              />
             </svg>
           </div>
           <div>
             <h1 class="text-lg font-display text-slate-800 leading-tight">CytoLens</h1>
-            <p class="text-[10px] text-slate-400 font-medium tracking-wider uppercase leading-none">Breast Cancer Predictor</p>
+            <p class="text-[10px] text-slate-400 font-medium tracking-wider uppercase leading-none">
+              Breast Cancer Predictor
+            </p>
           </div>
         </div>
 
         <!-- Desktop Nav -->
         <div class="hidden sm:flex items-center gap-1">
           <button
-            class="nav-link cursor-pointer {currentSection === 'predictor' ? 'nav-link-active' : ''}"
+            class="nav-link cursor-pointer {currentSection === 'predictor'
+              ? 'nav-link-active'
+              : ''}"
             onclick={() => navigate('predictor')}
           >
             Predictor
@@ -92,13 +114,23 @@
         <!-- Mobile menu button -->
         <button
           class="sm:hidden p-2 rounded-lg text-slate-500 hover:bg-surface-hover transition-colors cursor-pointer"
-          onclick={() => mobileMenuOpen = !mobileMenuOpen}
+          onclick={() => (mobileMenuOpen = !mobileMenuOpen)}
         >
-          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
             {#if mobileMenuOpen}
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             {:else}
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 9h16.5m-16.5 6.75h16.5"
+              />
             {/if}
           </svg>
         </button>
@@ -108,13 +140,19 @@
       {#if mobileMenuOpen}
         <div class="sm:hidden border-t border-slate-100 py-2 animate-fade-in">
           <button
-            class="w-full text-left px-4 py-2.5 text-sm font-medium rounded-lg transition-colors cursor-pointer {currentSection === 'predictor' ? 'text-primary bg-primary-50' : 'text-slate-600 hover:bg-surface-hover'}"
+            class="w-full text-left px-4 py-2.5 text-sm font-medium rounded-lg transition-colors cursor-pointer {currentSection ===
+            'predictor'
+              ? 'text-primary bg-primary-50'
+              : 'text-slate-600 hover:bg-surface-hover'}"
             onclick={() => navigate('predictor')}
           >
             Predictor
           </button>
           <button
-            class="w-full text-left px-4 py-2.5 text-sm font-medium rounded-lg transition-colors cursor-pointer {currentSection === 'about' ? 'text-primary bg-primary-50' : 'text-slate-600 hover:bg-surface-hover'}"
+            class="w-full text-left px-4 py-2.5 text-sm font-medium rounded-lg transition-colors cursor-pointer {currentSection ===
+            'about'
+              ? 'text-primary bg-primary-50'
+              : 'text-slate-600 hover:bg-surface-hover'}"
             onclick={() => navigate('about')}
           >
             About
@@ -139,13 +177,11 @@
         <div class="max-w-5xl mx-auto">
           <!-- Hero description -->
           <div class="mb-6 lg:mb-8 animate-fade-up">
-            <h2 class="font-display text-2xl lg:text-3xl text-slate-800 mb-2">
-              Cytology Analysis
-            </h2>
+            <h2 class="font-display text-2xl lg:text-3xl text-slate-800 mb-2">Cytology Analysis</h2>
             <p class="text-sm text-slate-500 leading-relaxed max-w-2xl">
-              Adjust the cell nuclei measurements in the sidebar to generate a real-time
-              malignancy prediction using a logistic regression model trained on the
-              Wisconsin Diagnostic Breast Cancer dataset.
+              Adjust the cell nuclei measurements in the sidebar to generate a real-time malignancy
+              prediction using a logistic regression model trained on the Wisconsin Diagnostic
+              Breast Cancer dataset.
             </p>
           </div>
 

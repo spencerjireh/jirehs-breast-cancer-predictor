@@ -20,6 +20,8 @@
     "svelte-check": "^4.3.4",
     "tailwindcss": "^4.1.18",
     "typescript": "~5.9.3",
+    "prettier": "^3.4.2",
+    "prettier-plugin-svelte": "^3.4.1",
     "vite": "^7.2.4"
   },
   "dependencies": {

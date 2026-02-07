@@ -40,7 +40,9 @@
     <div class="flex-1 flex items-center justify-center py-8">
       <div class="relative">
         <div class="w-10 h-10 rounded-full border-2 border-slate-100"></div>
-        <div class="absolute inset-0 w-10 h-10 rounded-full border-2 border-transparent border-t-primary animate-spin-slow"></div>
+        <div
+          class="absolute inset-0 w-10 h-10 rounded-full border-2 border-transparent border-t-primary animate-spin-slow"
+        ></div>
       </div>
     </div>
   {:else if pred}
@@ -95,8 +97,12 @@
         <div
           class="w-full py-2.5 rounded-xl text-center text-sm font-semibold transition-all duration-500"
           style="
-            background: {pred.prediction === 'Benign' ? 'var(--color-benign-light)' : 'var(--color-malignant-light)'};
-            color: {pred.prediction === 'Benign' ? 'var(--color-benign-dark)' : 'var(--color-malignant-dark)'};
+            background: {pred.prediction === 'Benign'
+            ? 'var(--color-benign-light)'
+            : 'var(--color-malignant-light)'};
+            color: {pred.prediction === 'Benign'
+            ? 'var(--color-benign-dark)'
+            : 'var(--color-malignant-dark)'};
           "
         >
           {pred.prediction}
@@ -121,7 +127,8 @@
           <div class="w-full h-2 bg-slate-50 rounded-full overflow-hidden">
             <div
               class="h-full rounded-full transition-all duration-500"
-              style="width: {pred.probability_benign * 100}%; background: linear-gradient(90deg, var(--color-benign), var(--color-benign-dark));"
+              style="width: {pred.probability_benign *
+                100}%; background: linear-gradient(90deg, var(--color-benign), var(--color-benign-dark));"
             ></div>
           </div>
         </div>
@@ -139,7 +146,8 @@
           <div class="w-full h-2 bg-slate-50 rounded-full overflow-hidden">
             <div
               class="h-full rounded-full transition-all duration-500"
-              style="width: {pred.probability_malignant * 100}%; background: linear-gradient(90deg, var(--color-malignant), var(--color-malignant-dark));"
+              style="width: {pred.probability_malignant *
+                100}%; background: linear-gradient(90deg, var(--color-malignant), var(--color-malignant-dark));"
             ></div>
           </div>
         </div>
@@ -156,12 +164,22 @@
   {:else}
     <div class="flex-1 flex flex-col items-center justify-center py-8">
       <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center mb-3">
-        <svg class="w-6 h-6 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+        <svg
+          class="w-6 h-6 text-slate-300"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
+          />
         </svg>
       </div>
       <p class="text-sm text-slate-400 text-center">
-        Adjust the sliders to<br/>generate a prediction
+        Adjust the sliders to<br />generate a prediction
       </p>
     </div>
   {/if}
