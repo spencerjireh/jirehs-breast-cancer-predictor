@@ -7,14 +7,21 @@ class FeatureInfo(BaseModel):
     key: str
     label: str
     group: str
+    description: str
     min: float
     max: float
     mean: float
 
 
+class Preset(BaseModel):
+    label: str
+    values: dict[str, float]
+
+
 class FeaturesResponse(BaseModel):
     features: list[FeatureInfo]
     radar_categories: list[str]
+    presets: list[Preset]
 
 
 class PredictRequest(BaseModel):

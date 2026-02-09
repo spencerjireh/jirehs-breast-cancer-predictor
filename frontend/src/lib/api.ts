@@ -1,8 +1,9 @@
-import type { FeatureInfo, PredictionResult } from './types';
+import type { FeatureInfo, Preset, PredictionResult } from './types';
 
 export async function fetchFeatures(): Promise<{
   features: FeatureInfo[];
   radar_categories: string[];
+  presets: Preset[];
 }> {
   const res = await fetch('/api/features');
   if (!res.ok) throw new Error(`Failed to fetch features: ${res.status}`);

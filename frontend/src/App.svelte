@@ -6,6 +6,7 @@
     featureValues,
     prediction,
     predicting,
+    presets,
     radarCategories,
   } from './lib/stores';
   import { debounce } from './lib/debounce';
@@ -35,6 +36,7 @@
       const data = await fetchFeatures();
       featuresMeta.set(data.features);
       radarCategories.set(data.radar_categories);
+      presets.set(data.presets);
 
       const defaults: Record<string, number> = {};
       for (const f of data.features) {

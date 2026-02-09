@@ -41,6 +41,29 @@ FEATURE_LABELS: list[tuple[str, str, str]] = [
 
 FEATURE_KEYS: list[str] = [key for _, key, _ in FEATURE_LABELS]
 
+FEATURE_DESCRIPTIONS: dict[str, str] = {
+    "radius": "Mean distance from center to perimeter points",
+    "texture": "Standard deviation of gray-scale values",
+    "perimeter": "Total boundary length of the nucleus",
+    "area": "Total area of the cell nucleus",
+    "smoothness": "Local variation in radius lengths",
+    "compactness": "Perimeter\u00b2 / Area \u2212 1.0",
+    "concavity": "Severity of concave portions of the contour",
+    "concave points": "Number of concave portions of the contour",
+    "symmetry": "Symmetry of the nucleus shape",
+    "fractal_dimension": "Boundary complexity (coastline approximation)",
+}
+
+
+def _get_description(key: str) -> str:
+    """Extract base measurement name from feature key to look up description."""
+    for suffix in ("_mean", "_se", "_worst"):
+        if key.endswith(suffix):
+            base = key[: -len(suffix)]
+            return FEATURE_DESCRIPTIONS.get(base, "")
+    return ""
+
+
 RADAR_CATEGORIES: list[str] = [
     "Radius",
     "Texture",
@@ -57,10 +80,11 @@ RADAR_CATEGORIES: list[str] = [
 _model = None
 _scaler = None
 _feature_stats: dict[str, dict[str, float]] = {}
+_presets: list[dict] = []
 
 
 def load_artifacts() -> None:
-    global _model, _scaler, _feature_stats
+    global _model, _scaler, _feature_stats, _presets
 
     with open(BASE_DIR / "model" / "model.pkl", "rb") as f:
         _model = pickle.load(f)
@@ -79,6 +103,25 @@ def load_artifacts() -> None:
             "mean": float(col.mean()),
         }
 
+    # Compute presets from diagnosis groups
+    benign = data[data["diagnosis"] == "B"]
+    malignant = data[data["diagnosis"] == "M"]
+    keys = [key for _, key, _ in FEATURE_LABELS]
+
+    benign_vals = {k: float(benign[k].median()) for k in keys}
+    malignant_vals = {k: float(malignant[k].median()) for k in keys}
+    borderline_vals = {k: 0.6 * benign_vals[k] + 0.4 * malignant_vals[k] for k in keys}
+
+    _presets = [
+        {"label": "Typical Benign", "values": benign_vals},
+        {"label": "Borderline", "values": borderline_vals},
+        {"label": "Typical Malignant", "values": malignant_vals},
+    ]
+
+
+def get_presets() -> list[dict]:
+    return _presets
+
 
 def get_feature_metadata() -> list[dict]:
     return [
@@ -86,6 +129,7 @@ def get_feature_metadata() -> list[dict]:
             "key": key,
             "label": label,
             "group": group,
+            "description": _get_description(key),
             "min": _feature_stats[key]["min"],
             "max": _feature_stats[key]["max"],
             "mean": _feature_stats[key]["mean"],

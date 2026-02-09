@@ -11,6 +11,7 @@ def get_features():
     return FeaturesResponse(
         features=model.get_feature_metadata(),
         radar_categories=model.RADAR_CATEGORIES,
+        presets=model.get_presets(),
     )
 
 

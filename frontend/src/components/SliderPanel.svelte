@@ -1,16 +1,31 @@
 <script lang="ts">
-  import { groupedFeatures, featureValues } from '../lib/stores';
+  import { groupedFeatures, featureValues, featuresMeta, presets } from '../lib/stores';
   import SliderGroup from './SliderGroup.svelte';
-  import type { GroupedFeatures } from '../lib/types';
+  import type { FeatureInfo, GroupedFeatures, Preset } from '../lib/types';
 
   let grouped: GroupedFeatures = $state({ mean: [], se: [], worst: [] });
   let values: Record<string, number> = $state({});
-
+  let allFeatures: FeatureInfo[] = $state([]);
+  let presetList: Preset[] = $state([]);
   groupedFeatures.subscribe((v) => (grouped = v));
   featureValues.subscribe((v) => (values = v));
+  featuresMeta.subscribe((v) => (allFeatures = v));
+  presets.subscribe((v) => (presetList = v));
 
   function handleSliderChange(key: string, value: number) {
     featureValues.update((v) => ({ ...v, [key]: value }));
+  }
+
+  function applyPreset(preset: Preset) {
+    featureValues.set({ ...preset.values });
+  }
+
+  function resetToMeans() {
+    const defaults: Record<string, number> = {};
+    for (const f of allFeatures) {
+      defaults[f.key] = f.mean;
+    }
+    featureValues.set(defaults);
   }
 
   const groupIcons = {
@@ -28,7 +43,7 @@
 
 <div class="p-4 lg:p-5">
   <!-- Header -->
-  <div class="mb-5">
+  <div class="mb-4">
     <div class="flex items-center gap-2 mb-1">
       <svg
         class="w-4 h-4 text-primary"
@@ -48,6 +63,31 @@
     <p class="text-xs text-slate-400 leading-relaxed">30 features grouped by statistical measure</p>
   </div>
 
+  <!-- Presets and Reset -->
+  {#if presetList.length > 0}
+    <div class="mb-4">
+      <div class="text-[11px] font-medium text-slate-500 uppercase tracking-wider mb-2">
+        Presets
+      </div>
+      <div class="flex flex-wrap gap-2">
+        {#each presetList as preset (preset.label)}
+          <button
+            class="px-3 py-1.5 text-xs font-medium rounded-lg border border-slate-200 text-slate-600 hover:border-primary hover:text-primary hover:bg-primary-50 transition-colors cursor-pointer"
+            onclick={() => applyPreset(preset)}
+          >
+            {preset.label}
+          </button>
+        {/each}
+        <button
+          class="px-3 py-1.5 text-xs font-medium rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-colors cursor-pointer"
+          onclick={resetToMeans}
+        >
+          Reset
+        </button>
+      </div>
+    </div>
+  {/if}
+
   <div class="space-y-3">
     <SliderGroup
       label="Mean Values"
@@ -56,8 +96,9 @@
       features={grouped.mean}
       {values}
       onchange={handleSliderChange}
-      defaultOpen={true}
+      alwaysOpen={true}
     />
+
     <SliderGroup
       label="Standard Error"
       description={groupDescriptions.se}
