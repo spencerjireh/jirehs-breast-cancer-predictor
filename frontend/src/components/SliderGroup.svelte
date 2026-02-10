@@ -86,7 +86,9 @@
 
   <!-- Slider content -->
   {#if alwaysOpen || !collapsed}
-    <div class="border-t border-slate-50 px-3 sm:px-4 py-3 space-y-3.5 sm:space-y-4 animate-fade-in">
+    <div
+      class="border-t border-slate-50 px-3 sm:px-4 py-3 space-y-3.5 sm:space-y-4 animate-fade-in"
+    >
       {#each features as feature (feature.key)}
         <div class="group">
           <div class="flex justify-between items-baseline mb-0.5">

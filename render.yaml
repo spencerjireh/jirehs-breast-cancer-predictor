@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: breast-cancer-predictor
+    name: cytolens
     runtime: docker
     plan: free
     envVars:

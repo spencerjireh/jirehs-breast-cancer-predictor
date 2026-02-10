@@ -159,13 +159,19 @@
 <div class="max-w-4xl 2xl:max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
   <!-- Hero -->
   <div class="mb-12 animate-fade-up">
-    <h1 class="font-display text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl text-slate-800 mb-3">About CytoLens</h1>
-    <p class="text-sm sm:text-base 2xl:text-lg text-slate-500 leading-relaxed max-w-2xl 2xl:max-w-3xl mb-3">
+    <h1 class="font-display text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl text-slate-800 mb-3">
+      About CytoLens
+    </h1>
+    <p
+      class="text-sm sm:text-base 2xl:text-lg text-slate-500 leading-relaxed max-w-2xl 2xl:max-w-3xl mb-3"
+    >
       CytoLens is an interactive machine learning tool that predicts breast cancer malignancy from
       cell nucleus measurements. Users adjust 30 morphological features via sliders and see
       real-time predictions with a radar chart visualization of the input data.
     </p>
-    <p class="text-sm sm:text-base 2xl:text-lg text-slate-500 leading-relaxed max-w-2xl 2xl:max-w-3xl">
+    <p
+      class="text-sm sm:text-base 2xl:text-lg text-slate-500 leading-relaxed max-w-2xl 2xl:max-w-3xl"
+    >
       It covers end-to-end ML deployment: model training, a Python API, a modern reactive frontend,
       and containerized delivery -- all in a single, production-ready application.
     </p>
@@ -295,7 +301,9 @@
     <!-- Headline stats -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
       {#each metrics.headline as stat}
-        <div class="flex sm:block items-center gap-3 sm:gap-0 sm:text-center p-3 rounded-xl bg-primary-50/50">
+        <div
+          class="flex sm:block items-center gap-3 sm:gap-0 sm:text-center p-3 rounded-xl bg-primary-50/50"
+        >
           <div class="text-xl sm:text-2xl font-bold text-primary">{stat.value}</div>
           <div class="text-xs text-slate-500 sm:mt-1">{stat.label}</div>
         </div>

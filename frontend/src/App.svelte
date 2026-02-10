@@ -179,7 +179,9 @@
         <div class="max-w-5xl 2xl:max-w-6xl mx-auto">
           <!-- Hero description -->
           <div class="mb-6 md:mb-8 animate-fade-up">
-            <h2 class="font-display text-2xl md:text-3xl 2xl:text-4xl text-slate-800 mb-2">Cytology Analysis</h2>
+            <h2 class="font-display text-2xl md:text-3xl 2xl:text-4xl text-slate-800 mb-2">
+              Cytology Analysis
+            </h2>
             <p class="text-sm md:text-base text-slate-500 leading-relaxed max-w-2xl">
               Adjust the cell nuclei measurements in the sidebar to generate a real-time malignancy
               prediction using a logistic regression model trained on the Wisconsin Diagnostic

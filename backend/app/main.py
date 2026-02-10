@@ -15,7 +15,7 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI(title="Breast Cancer Predictor", lifespan=lifespan)
+app = FastAPI(title="CytoLens", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,

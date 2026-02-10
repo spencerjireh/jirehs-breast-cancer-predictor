@@ -1,6 +1,6 @@
-# Jireh's Breast Cancer Predictor
+# CytoLens
 
-A predictor for cancer malignancy in breast tissue samples meant to be used in conjunction with measurements from a cytology lab. Uses a Logistic Regression model with an interactive radar chart visualization.
+CytoLens is a breast cancer predictor for cancer malignancy in breast tissue samples meant to be used in conjunction with measurements from a cytology lab. Uses a Logistic Regression model with an interactive radar chart visualization.
 
 Built with **FastAPI** (backend) + **Svelte** (frontend), served from a single Docker container.
 
@@ -39,8 +39,8 @@ python3 train.py
 ## Docker
 
 ```bash
-docker build -t breast-cancer-predictor .
-docker run -p 8000:8000 breast-cancer-predictor
+docker build -t cytolens .
+docker run -p 8000:8000 cytolens
 ```
 
 Open `http://localhost:8000` to use the app.

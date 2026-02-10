@@ -54,38 +54,40 @@
     ];
   }
 
-  const layout = $derived((() => {
-    const mobile = innerWidth < 640;
-    return {
-      polar: {
-        radialaxis: {
-          visible: true,
-          range: [0, 1],
-          tickfont: { size: mobile ? 7 : 9, color: '#94a3b8', family: 'DM Sans' },
-          gridcolor: '#e2e8f0',
-          linecolor: '#e2e8f0',
+  const layout = $derived(
+    (() => {
+      const mobile = innerWidth < 640;
+      return {
+        polar: {
+          radialaxis: {
+            visible: true,
+            range: [0, 1],
+            tickfont: { size: mobile ? 7 : 9, color: '#94a3b8', family: 'DM Sans' },
+            gridcolor: '#e2e8f0',
+            linecolor: '#e2e8f0',
+          },
+          angularaxis: {
+            tickfont: { size: mobile ? 8 : 10, color: '#64748b', family: 'DM Sans' },
+            gridcolor: '#e2e8f0',
+            linecolor: '#e2e8f0',
+          },
+          bgcolor: 'transparent',
         },
-        angularaxis: {
-          tickfont: { size: mobile ? 8 : 10, color: '#64748b', family: 'DM Sans' },
-          gridcolor: '#e2e8f0',
-          linecolor: '#e2e8f0',
+        showlegend: true,
+        legend: {
+          orientation: 'h' as const,
+          y: -0.15,
+          x: 0.5,
+          xanchor: 'center' as const,
+          font: { size: mobile ? 9 : 11, color: '#64748b', family: 'DM Sans' },
         },
-        bgcolor: 'transparent',
-      },
-      showlegend: true,
-      legend: {
-        orientation: 'h' as const,
-        y: -0.15,
-        x: 0.5,
-        xanchor: 'center' as const,
-        font: { size: mobile ? 9 : 11, color: '#64748b', family: 'DM Sans' },
-      },
-      margin: mobile ? { t: 20, b: 40, l: 30, r: 30 } : { t: 30, b: 50, l: 50, r: 50 },
-      paper_bgcolor: 'transparent',
-      plot_bgcolor: 'transparent',
-      font: { family: 'DM Sans, sans-serif' },
-    };
-  })());
+        margin: mobile ? { t: 20, b: 40, l: 30, r: 30 } : { t: 30, b: 50, l: 50, r: 50 },
+        paper_bgcolor: 'transparent',
+        plot_bgcolor: 'transparent',
+        font: { family: 'DM Sans, sans-serif' },
+      };
+    })(),
+  );
 
   const config = { displayModeBar: false, responsive: true };
 
@@ -128,5 +130,8 @@
       </div>
     </div>
   </div>
-  <div bind:this={container} class="w-full min-h-[260px] sm:min-h-[320px] md:min-h-[360px] lg:min-h-[380px]"></div>
+  <div
+    bind:this={container}
+    class="w-full min-h-[260px] sm:min-h-[320px] md:min-h-[360px] lg:min-h-[380px]"
+  ></div>
 </div>

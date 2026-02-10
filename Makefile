@@ -34,10 +34,10 @@ build: ## Build frontend for production
 	cd frontend && npm run build
 
 docker-build: ## Build production Docker image
-	docker build -t breast-cancer-predictor .
+	docker build -t cytolens .
 
 docker-run: ## Run production Docker container
-	docker run -p 8000:8000 breast-cancer-predictor
+	docker run -p 8000:8000 cytolens
 
 ## Code quality ----------------------------------------------------------------
 
