@@ -1,4 +1,11 @@
 <script lang="ts">
+  import katex from 'katex';
+  import 'katex/dist/katex.min.css';
+
+  function tex(latex: string): string {
+    return katex.renderToString(latex, { displayMode: true, throwOnError: false });
+  }
+
   const features = [
     {
       name: 'Radius',
@@ -51,7 +58,7 @@
         'The decision boundary is linear in feature space: a hyperplane separating the two classes. Despite this simplicity, logistic regression performs well on WDBC because the classes are largely linearly separable after standardization.',
       ],
       formula:
-        '\u03C3(z) = 1 / (1 + e^(-z))\nwhere z = w\u2080 + w\u2081x\u2081 + w\u2082x\u2082 + ... + w\u2083\u2080x\u2083\u2080',
+        '\\sigma(z) = \\frac{1}{1 + e^{-z}}, \\quad z = w_0 + w_1 x_1 + w_2 x_2 + \\cdots + w_{30} x_{30}',
     },
     {
       title: 'Feature Standardization',
@@ -60,7 +67,8 @@
         'Without standardization, features with larger numeric ranges would dominate the gradient updates during training, preventing the optimizer from converging efficiently. Standardization ensures all features contribute proportionally.',
         'The scaler is fit only on training data and then applied to test data, preventing data leakage. CytoLens stores the fitted scaler alongside the model so that user inputs are transformed identically at inference time.',
       ],
-      formula: 'z = (x - \u03BC) / \u03C3\nwhere \u03BC = sample mean, \u03C3 = sample std dev',
+      formula:
+        'z = \\frac{x - \\mu}{\\sigma}, \\quad \\mu = \\text{sample mean},\\; \\sigma = \\text{sample std dev}',
     },
     {
       title: 'L2 Regularization (Ridge)',
@@ -70,7 +78,7 @@
         'The regularization strength is controlled by the inverse parameter C. Smaller C means stronger regularization. scikit-learn defaults to C=1.0, which provides moderate regularization suitable for this dataset.',
       ],
       formula:
-        'Loss = -\u03A3[y\u1D62 log(\u0177\u1D62) + (1-y\u1D62) log(1-\u0177\u1D62)] + (1/2C) \u03A3w\u2C7C\u00B2\n              cross-entropy loss              L2 penalty',
+        '\\mathcal{L} = \\underbrace{-\\sum_{i} \\left[ y_i \\log(\\hat{y}_i) + (1 - y_i) \\log(1 - \\hat{y}_i) \\right]}_{\\text{cross-entropy loss}} + \\underbrace{\\frac{1}{2C} \\sum_j w_j^2}_{\\text{L2 penalty}}',
     },
     {
       title: 'LBFGS Optimization',
@@ -89,7 +97,7 @@
         'F1 score is the harmonic mean of precision and recall, providing a single metric that balances both concerns. The harmonic mean penalizes extreme imbalances, so a high F1 requires both precision and recall to be strong.',
       ],
       formula:
-        'F1 = 2 \u00D7 (Precision \u00D7 Recall) / (Precision + Recall)\nPrecision = TP / (TP + FP)\nRecall = TP / (TP + FN)',
+        'F_1 = \\frac{2 \\times \\text{Precision} \\times \\text{Recall}}{\\text{Precision} + \\text{Recall}}, \\quad \\text{Precision} = \\frac{TP}{TP + FP}, \\quad \\text{Recall} = \\frac{TP}{TP + FN}',
     },
     {
       title: 'Train-Test Split',
@@ -107,7 +115,8 @@
         'Standard error (SE) quantifies the variability of measurements across nuclei. High SE in a feature like radius suggests heterogeneous nuclear sizes, which can be a hallmark of malignancy.',
         'The "worst" value is the mean of the three largest nuclei for each feature. This captures the most abnormal cells in the sample, which are often the most diagnostically informative since malignant tumors tend to produce outlier nuclei.',
       ],
-      formula: 'SE = s / \u221An\nwhere s = sample std dev, n = number of nuclei',
+      formula:
+        'SE = \\frac{s}{\\sqrt{n}}, \\quad s = \\text{sample std dev},\\; n = \\text{number of nuclei}',
     },
   ];
 
@@ -126,7 +135,7 @@
   const limitations = [
     {
       title: 'Not a clinical diagnostic tool',
-      desc: 'CytoLens is a portfolio project and learning tool. It has not been validated for clinical decision-making and must not be used to diagnose or treat any medical condition.',
+      desc: 'CytoLens has not been validated for clinical decision-making and must not be used to diagnose or treat any medical condition.',
     },
     {
       title: 'Limited dataset',
@@ -147,26 +156,25 @@
   ];
 </script>
 
-<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+<div class="max-w-4xl 2xl:max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
   <!-- Hero -->
   <div class="mb-12 animate-fade-up">
-    <h1 class="font-display text-3xl lg:text-4xl text-slate-800 mb-3">About CytoLens</h1>
-    <p class="text-base text-slate-500 leading-relaxed max-w-2xl mb-3">
+    <h1 class="font-display text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl text-slate-800 mb-3">About CytoLens</h1>
+    <p class="text-sm sm:text-base 2xl:text-lg text-slate-500 leading-relaxed max-w-2xl 2xl:max-w-3xl mb-3">
       CytoLens is an interactive machine learning tool that predicts breast cancer malignancy from
       cell nucleus measurements. Users adjust 30 morphological features via sliders and see
       real-time predictions with a radar chart visualization of the input data.
     </p>
-    <p class="text-base text-slate-500 leading-relaxed max-w-2xl">
-      Built as a full-stack portfolio project, it demonstrates end-to-end ML deployment: model
-      training, a Python API, a modern reactive frontend, and containerized delivery -- all in a
-      single, production-ready application.
+    <p class="text-sm sm:text-base 2xl:text-lg text-slate-500 leading-relaxed max-w-2xl 2xl:max-w-3xl">
+      It covers end-to-end ML deployment: model training, a Python API, a modern reactive frontend,
+      and containerized delivery -- all in a single, production-ready application.
     </p>
   </div>
 
   <!-- How It Works + The Dataset -->
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
     <!-- How it works -->
-    <div class="card p-6 animate-fade-up delay-100">
+    <div class="card p-4 sm:p-6 animate-fade-up delay-100">
       <div class="flex items-center gap-2 mb-4">
         <div class="w-8 h-8 rounded-lg bg-primary-50 text-primary flex items-center justify-center">
           <svg
@@ -185,7 +193,7 @@
         </div>
         <h2 class="text-base font-semibold text-slate-700">How It Works</h2>
       </div>
-      <div class="space-y-3 text-sm text-slate-600 leading-relaxed">
+      <div class="space-y-3 text-sm 2xl:text-base text-slate-600 leading-relaxed">
         <div class="flex gap-3">
           <div
             class="w-6 h-6 rounded-full bg-primary-50 text-primary flex items-center justify-center flex-shrink-0 text-xs font-semibold mt-0.5"
@@ -225,7 +233,7 @@
     </div>
 
     <!-- The Dataset -->
-    <div class="card p-6 animate-fade-up delay-200">
+    <div class="card p-4 sm:p-6 animate-fade-up delay-200">
       <div class="flex items-center gap-2 mb-4">
         <div class="w-8 h-8 rounded-lg bg-primary-50 text-primary flex items-center justify-center">
           <svg
@@ -244,18 +252,18 @@
         </div>
         <h2 class="text-base font-semibold text-slate-700">The Dataset</h2>
       </div>
-      <p class="text-sm text-slate-600 leading-relaxed mb-3">
+      <p class="text-sm 2xl:text-base text-slate-600 leading-relaxed mb-3">
         The model is trained on the <strong>Wisconsin Diagnostic Breast Cancer (WDBC)</strong>
         dataset from the UCI Machine Learning Repository. It contains
         <strong>569 samples</strong> -- 357 benign and 212 malignant -- each described by 30 features
         derived from digitized FNA images.
       </p>
-      <p class="text-sm text-slate-600 leading-relaxed mb-3">
+      <p class="text-sm 2xl:text-base text-slate-600 leading-relaxed mb-3">
         The 30 features come from 10 nuclear morphology measurements, each recorded as three
         statistics: mean value across all nuclei, standard error, and worst (mean of the three
         largest values).
       </p>
-      <p class="text-sm text-slate-600 leading-relaxed">
+      <p class="text-sm 2xl:text-base text-slate-600 leading-relaxed">
         <strong>Training pipeline:</strong> features are standardized with
         <code class="text-xs bg-slate-50 px-1 py-0.5 rounded">StandardScaler</code>, then classified
         with Logistic Regression (L2 regularization, LBFGS solver, 80/20 train-test split).
@@ -264,7 +272,7 @@
   </div>
 
   <!-- Model Performance -->
-  <div class="card p-6 mb-8 animate-fade-up delay-200">
+  <div class="card p-4 sm:p-6 mb-8 animate-fade-up delay-200">
     <div class="flex items-center gap-2 mb-5">
       <div class="w-8 h-8 rounded-lg bg-primary-50 text-primary flex items-center justify-center">
         <svg
@@ -285,11 +293,11 @@
     </div>
 
     <!-- Headline stats -->
-    <div class="grid grid-cols-3 gap-4 mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
       {#each metrics.headline as stat}
-        <div class="text-center p-3 rounded-xl bg-primary-50/50">
-          <div class="text-2xl font-bold text-primary">{stat.value}</div>
-          <div class="text-xs text-slate-500 mt-1">{stat.label}</div>
+        <div class="flex sm:block items-center gap-3 sm:gap-0 sm:text-center p-3 rounded-xl bg-primary-50/50">
+          <div class="text-xl sm:text-2xl font-bold text-primary">{stat.value}</div>
+          <div class="text-xs text-slate-500 sm:mt-1">{stat.label}</div>
         </div>
       {/each}
     </div>
@@ -353,7 +361,7 @@
   </div>
 
   <!-- Measured Features -->
-  <div class="card p-6 mb-8 animate-fade-up delay-300">
+  <div class="card p-4 sm:p-6 mb-8 animate-fade-up delay-300">
     <div class="flex items-center gap-2 mb-4">
       <div class="w-8 h-8 rounded-lg bg-primary-50 text-primary flex items-center justify-center">
         <svg
@@ -395,7 +403,7 @@
   </div>
 
   <!-- ML & Statistics Methodology -->
-  <div class="card p-6 mb-8 animate-fade-up delay-400">
+  <div class="card p-4 sm:p-6 mb-8 animate-fade-up delay-400">
     <div class="flex items-center gap-2 mb-4">
       <div class="w-8 h-8 rounded-lg bg-primary-50 text-primary flex items-center justify-center">
         <svg
@@ -432,14 +440,14 @@
               <div class="text-sm font-medium text-slate-700 mb-2">{topic.title}</div>
               <div class="space-y-2">
                 {#each topic.paragraphs as paragraph}
-                  <p class="text-xs text-slate-500 leading-relaxed">{paragraph}</p>
+                  <p class="text-xs 2xl:text-sm text-slate-500 leading-relaxed">{paragraph}</p>
                 {/each}
               </div>
               {#if topic.formula}
                 <div
-                  class="mt-3 p-3 rounded-lg bg-slate-50 border border-slate-100 font-mono text-xs text-slate-600 whitespace-pre leading-relaxed"
+                  class="mt-3 p-3 rounded-lg bg-slate-50 border border-slate-100 overflow-x-auto"
                 >
-                  {topic.formula}
+                  {@html tex(topic.formula)}
                 </div>
               {/if}
             </div>
@@ -450,7 +458,7 @@
   </div>
 
   <!-- Limitations -->
-  <div class="card p-6 mb-8 animate-fade-up delay-400">
+  <div class="card p-4 sm:p-6 mb-8 animate-fade-up delay-400">
     <div class="flex items-center gap-2 mb-4">
       <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
         <svg
@@ -487,7 +495,7 @@
   </div>
 
   <!-- Acknowledgments -->
-  <div class="card p-6 mb-8 animate-fade-up delay-400">
+  <div class="card p-4 sm:p-6 mb-8 animate-fade-up delay-400">
     <div class="flex items-center gap-2 mb-4">
       <div class="w-8 h-8 rounded-lg bg-primary-50 text-primary flex items-center justify-center">
         <svg
@@ -506,7 +514,7 @@
       </div>
       <h2 class="text-base font-semibold text-slate-700">Acknowledgments</h2>
     </div>
-    <div class="space-y-3 text-sm text-slate-600 leading-relaxed">
+    <div class="space-y-3 text-sm 2xl:text-base text-slate-600 leading-relaxed">
       <p>
         This project was inspired by
         <a

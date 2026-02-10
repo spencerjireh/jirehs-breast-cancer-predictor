@@ -32,24 +32,19 @@
   }
 </script>
 
-<div class="card p-5 h-full flex flex-col">
+<div class="card p-4 sm:p-5 h-full flex flex-col relative">
   <h2 class="text-sm font-semibold text-slate-700 mb-1">Prediction Result</h2>
-  <p class="text-[11px] text-slate-400 mb-4">Logistic regression classification</p>
+  <p class="text-[11px] text-slate-400 mb-3 sm:mb-4">Logistic regression classification</p>
 
-  {#if loading}
-    <div class="flex-1 flex items-center justify-center py-8">
-      <div class="relative">
-        <div class="w-10 h-10 rounded-full border-2 border-slate-100"></div>
-        <div
-          class="absolute inset-0 w-10 h-10 rounded-full border-2 border-transparent border-t-primary animate-spin-slow"
-        ></div>
-      </div>
-    </div>
-  {:else if pred}
-    <div class="flex-1 flex flex-col items-center">
+  {#if pred}
+    <div
+      class="flex-1 flex flex-col items-center transition-opacity duration-200"
+      class:opacity-50={loading}
+      class:pointer-events-none={loading}
+    >
       <!-- Risk Gauge -->
-      <div class="relative mb-4">
-        <svg width="200" height="115" viewBox="0 0 200 115">
+      <div class="relative mb-3 sm:mb-4">
+        <svg class="w-[160px] h-[92px] sm:w-[200px] sm:h-[115px]" viewBox="0 0 200 115">
           <!-- Background arc -->
           <path
             d="M 20 100 A 80 80 0 0 1 180 100"
@@ -81,7 +76,7 @@
         <!-- Center text -->
         <div class="absolute inset-0 flex flex-col items-center justify-end pb-2">
           <span
-            class="text-3xl font-bold tabular-nums"
+            class="text-2xl sm:text-3xl font-bold tabular-nums"
             style="color: {getGaugeColor(pred.probability_malignant)}"
           >
             {(pred.probability_malignant * 100).toFixed(1)}%
@@ -161,7 +156,29 @@
         </p>
       </div>
     </div>
+    <!-- Small overlay spinner when updating -->
+    {#if loading}
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div class="relative">
+          <div class="w-8 h-8 rounded-full border-2 border-slate-200/50"></div>
+          <div
+            class="absolute inset-0 w-8 h-8 rounded-full border-2 border-transparent border-t-primary animate-spin-slow"
+          ></div>
+        </div>
+      </div>
+    {/if}
+  {:else if loading}
+    <!-- First-load spinner (no previous data to show) -->
+    <div class="flex-1 flex items-center justify-center py-8">
+      <div class="relative">
+        <div class="w-10 h-10 rounded-full border-2 border-slate-100"></div>
+        <div
+          class="absolute inset-0 w-10 h-10 rounded-full border-2 border-transparent border-t-primary animate-spin-slow"
+        ></div>
+      </div>
+    </div>
   {:else}
+    <!-- Empty state (before any interaction) -->
     <div class="flex-1 flex flex-col items-center justify-center py-8">
       <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center mb-3">
         <svg

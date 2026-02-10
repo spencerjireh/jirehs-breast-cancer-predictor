@@ -66,7 +66,7 @@
 <div class="min-h-screen flex flex-col bg-surface-dim">
   <!-- Navigation -->
   <nav class="bg-surface/80 backdrop-blur-lg border-b border-slate-100 sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <!-- Logo -->
         <div class="flex items-center gap-3">
@@ -166,21 +166,21 @@
 
   <!-- Content -->
   {#if currentSection === 'predictor'}
-    <div class="flex-1 flex flex-col lg:flex-row">
+    <div class="flex-1 flex flex-col md:flex-row">
       <!-- Sidebar -->
       <aside
-        class="w-full lg:w-[340px] xl:w-[380px] bg-surface border-b lg:border-b-0 lg:border-r border-slate-100 overflow-y-auto lg:max-h-[calc(100vh-64px)]"
+        class="w-full md:w-[300px] lg:w-[340px] xl:w-[380px] 2xl:w-[420px] bg-surface border-b md:border-b-0 md:border-r border-slate-100 overflow-y-auto md:max-h-[calc(100vh-64px)]"
       >
         <SliderPanel />
       </aside>
 
       <!-- Main content -->
-      <main class="flex-1 p-4 lg:p-8 overflow-y-auto lg:max-h-[calc(100vh-64px)]">
-        <div class="max-w-5xl mx-auto">
+      <main class="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto md:max-h-[calc(100vh-64px)]">
+        <div class="max-w-5xl 2xl:max-w-6xl mx-auto">
           <!-- Hero description -->
-          <div class="mb-6 lg:mb-8 animate-fade-up">
-            <h2 class="font-display text-2xl lg:text-3xl text-slate-800 mb-2">Cytology Analysis</h2>
-            <p class="text-sm text-slate-500 leading-relaxed max-w-2xl">
+          <div class="mb-6 md:mb-8 animate-fade-up">
+            <h2 class="font-display text-2xl md:text-3xl 2xl:text-4xl text-slate-800 mb-2">Cytology Analysis</h2>
+            <p class="text-sm md:text-base text-slate-500 leading-relaxed max-w-2xl">
               Adjust the cell nuclei measurements in the sidebar to generate a real-time malignancy
               prediction using a logistic regression model trained on the Wisconsin Diagnostic
               Breast Cancer dataset.
@@ -188,8 +188,8 @@
           </div>
 
           <!-- Dashboard grid -->
-          <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 lg:gap-6">
-            <div class="xl:col-span-2 animate-fade-up delay-100">
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-5 lg:gap-6 2xl:gap-8">
+            <div class="lg:col-span-2 animate-fade-up delay-100">
               <RadarChart />
             </div>
             <div class="animate-fade-up delay-200">

@@ -41,7 +41,7 @@
   };
 </script>
 
-<div class="p-4 lg:p-5">
+<div class="p-3 sm:p-4 lg:p-5">
   <!-- Header -->
   <div class="mb-4">
     <div class="flex items-center gap-2 mb-1">

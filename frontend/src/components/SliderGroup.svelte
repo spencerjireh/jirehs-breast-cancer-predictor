@@ -37,7 +37,7 @@
 <div class="card overflow-hidden">
   <!-- Header -->
   {#if alwaysOpen}
-    <div class="flex items-center gap-3 p-3.5">
+    <div class="flex items-center gap-3 p-3 sm:p-3.5">
       <div
         class="w-8 h-8 rounded-lg bg-primary-50 text-primary flex items-center justify-center flex-shrink-0"
       >
@@ -53,7 +53,7 @@
     </div>
   {:else}
     <button
-      class="w-full flex items-center gap-3 p-3.5 hover:bg-surface-hover transition-colors duration-150 cursor-pointer"
+      class="w-full flex items-center gap-3 p-3 sm:p-3.5 hover:bg-surface-hover transition-colors duration-150 cursor-pointer"
       onclick={() => (collapsed = !collapsed)}
     >
       <div
@@ -86,7 +86,7 @@
 
   <!-- Slider content -->
   {#if alwaysOpen || !collapsed}
-    <div class="border-t border-slate-50 px-4 py-3 space-y-4 animate-fade-in">
+    <div class="border-t border-slate-50 px-3 sm:px-4 py-3 space-y-3.5 sm:space-y-4 animate-fade-in">
       {#each features as feature (feature.key)}
         <div class="group">
           <div class="flex justify-between items-baseline mb-0.5">
